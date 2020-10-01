@@ -36,6 +36,7 @@ import java.awt.Point;
 import java.io.*;
 import java.util.Vector;
 import java.util.LinkedList;
+import java.util.HashMap;
 
 @SuppressWarnings("serial")
 public class Robot 
@@ -43,6 +44,7 @@ public class Robot
 
 
 	private RobotWorldDec world;
+	HashMap<String,Integer> variables = new HashMap<String,Integer>();
 	
 	
 	void setWorld(RobotWorld w) {
@@ -174,31 +176,14 @@ TOKEN :
 	}
 
 	String letter(int token):
-	{String s;}
+	{String s; int x ;}
 
 	{
-	  < WORD > { 
+	  < WORD >| < MI >|< NUMERO >{ 
 	  s= Integer.toString(token);
 	  return s;
 	}
 	}
-
-
-
-//	int num (String a):
-//	{
-//    ArrayList<String> list;
-//	  }
-//	{ (list = < MI>)
-//      {
-//           for (int i = 0; i<list.size() ; i++ ) {
-//
-//               if (i.equals(a))
-//                  
-//           }           
-//  
-//      }
-//	}
 
    void turn (String s):
    { }
@@ -216,7 +201,6 @@ TOKEN :
    }
  }
 }
-
   void face (String s):
    { boolean b = false;}
    {
@@ -277,7 +261,28 @@ else if (s.equalsIgnoreCase("west")) {
      
    }
  }
+}
+
+void assign(String a ,int x):
+{}
+{
+{
+   variables.put(a,x); 
 } 
+}
+
+void move(String a):
+{int x = 1;}
+{
+{
+  if(variables.containsKey(a)) {
+   x = variables.get(a);
+ }
+world.moveForward(x);
+
+  
+} 
+}
 
 	void comands(String salida, int x):
 	{
@@ -286,11 +291,11 @@ else if (s.equalsIgnoreCase("west")) {
 	   }
 	{
 
-	  (	     <T_TURNRIGHT> "(" ")" {world.turnRight();salida = "Comando GIRAR DER";}
-		|  <T_MOVER>  "(" x= numero() ")" {world.moveForward(x);salida = "Comando MOVER ADELANTE";}  
+	  (	       <T_TURNRIGHT> "(" ")" {world.turnRight();salida = "Comando GIRAR DER";}
+		|  <T_MOVER>  "(" a = letter(MI) ")" {move(a); salida = "Comando MOVER ADELANTE";}  
 		|  <T_PONER> "("  objetoPoner() ")" {	salida = "Comando:  PONER"; }					  			
 		|  <T_RECOGER> "("  objetoRecoger()  ")"	{salida = "Comando:  Recoger";}
-		|  <ASSIGN> "(" a = letter( WORD ) " ," x = numero() ")" {b = Integer.parseInt(a); b =x; }
+		|  <ASSIGN> "(" a = letter( MI ) " ," x = numero() ")" {assign(a,x); }
 		|  <TURN> "(" a =  letter(WORD) ")" {turn(a);}
 		|  <FACE> "(" a = letter(WORD)  ")" { face(a);}
 		|  <MOVE_DIR> "(" a = letter( MI ) " ," x = numero() ")"
