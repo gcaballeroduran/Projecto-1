@@ -50,48 +50,28 @@ public class Robot implements RobotConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void objetoPoner() throws ParseException {
+  final public void objetoPoner(String a, int x) throws ParseException {
                 int f=1;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case T_CHIPS:
-      jj_consume_token(T_CHIPS);
-      jj_consume_token(22);
-      f = numero();
-                                               world.putChips(f);
-      break;
-    case T_BALLOONS:
-      jj_consume_token(T_BALLOONS);
-      jj_consume_token(22);
-      f = numero();
-                                                           world.putBalloons(f);
-      break;
-    default:
-      jj_la1[1] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+            if (a.equals("chip"))
+           {
+         world.putChips(x);
+            }
+            else {
+               world.putBalloons(x);
+
+         }
   }
 
-  final public void objetoRecoger() throws ParseException {
+  final public void objetoRecoger(String a, int x) throws ParseException {
                 int f=1;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case T_CHIPS:
-      jj_consume_token(T_CHIPS);
-      jj_consume_token(22);
-      f = numero();
-                                              world.pickChips(f);
-      break;
-    case T_BALLOONS:
-      jj_consume_token(T_BALLOONS);
-      jj_consume_token(22);
-      f = numero();
-                                                           world.grabBalloons(f);
-      break;
-    default:
-      jj_la1[2] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+            if (a.equals("chip"))
+           {
+         world.pickChips(x);
+            }
+            else {
+               world.grabBalloons(x);
+
+         }
   }
 
         /**
@@ -338,19 +318,19 @@ world.moveForward(x);
         ;
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[1] = jj_gen;
         break label_1;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case T_TURNRIGHT:
         jj_consume_token(T_TURNRIGHT);
+        jj_consume_token(22);
         jj_consume_token(23);
-        jj_consume_token(24);
                                       world.turnRight();salida = "Comando GIRAR DER";
         break;
       case T_MOVER:
         jj_consume_token(T_MOVER);
-        jj_consume_token(23);
+        jj_consume_token(22);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case MI:
           a = letter();
@@ -359,70 +339,74 @@ world.moveForward(x);
           a = num();
           break;
         default:
-          jj_la1[4] = jj_gen;
+          jj_la1[2] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
-        jj_consume_token(24);
+        jj_consume_token(23);
                                                                   move(a); salida = "Comando MOVER ADELANTE";
         break;
       case T_PONER:
         jj_consume_token(T_PONER);
-        jj_consume_token(23);
-        objetoPoner();
+        jj_consume_token(22);
+        x = numero();
         jj_consume_token(24);
-                                                        salida = "Comando:  PONER";
+        a = word();
+        jj_consume_token(23);
+                                                                    objetoPoner(a,x);   salida = "Comando:  PONER";
         break;
       case T_RECOGER:
         jj_consume_token(T_RECOGER);
-        jj_consume_token(23);
-        objetoRecoger();
+        jj_consume_token(22);
+        x = numero();
         jj_consume_token(24);
-                                                                 salida = "Comando:  Recoger";
+        a = word();
+        jj_consume_token(23);
+                                                                         objetoRecoger(a,x);salida = "Comando:  Recoger";
         break;
       case ASSIGN:
         jj_consume_token(ASSIGN);
-        jj_consume_token(23);
+        jj_consume_token(22);
         a = letter();
-        jj_consume_token(25);
-        x = numero();
         jj_consume_token(24);
+        x = numero();
+        jj_consume_token(23);
                                                                     assign(a,x);
         break;
       case TURN:
         jj_consume_token(TURN);
-        jj_consume_token(23);
+        jj_consume_token(22);
         a = word();
-        jj_consume_token(24);
+        jj_consume_token(23);
                                                turn(a);
         break;
       case FACE:
         jj_consume_token(FACE);
-        jj_consume_token(23);
+        jj_consume_token(22);
         a = word();
-        jj_consume_token(24);
+        jj_consume_token(23);
                                                face(a);
         break;
       case MOVE_DIR:
         jj_consume_token(MOVE_DIR);
-        jj_consume_token(23);
+        jj_consume_token(22);
         x = numero();
-        jj_consume_token(25);
-        a = word();
         jj_consume_token(24);
+        a = word();
+        jj_consume_token(23);
                                                                     moveDir(x,a);
         break;
       case MOVE_IN_DIR:
         jj_consume_token(MOVE_IN_DIR);
-        jj_consume_token(23);
+        jj_consume_token(22);
         c = letter();
-        jj_consume_token(25);
-        a = word();
         jj_consume_token(24);
+        a = word();
+        jj_consume_token(23);
                                                                         moveInDir(c,a);
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[3] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -438,13 +422,13 @@ world.moveForward(x);
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[6];
+  final private int[] jj_la1 = new int[4];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x401,0xc0000,0xc0000,0x1f3c0,0x100020,0x1f3c0,};
+      jj_la1_0 = new int[] {0x401,0x1f3c0,0x100020,0x1f3c0,};
    }
 
   /** Constructor with InputStream. */
@@ -458,7 +442,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -472,7 +456,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -482,7 +466,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -492,7 +476,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -501,7 +485,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -510,7 +494,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -561,12 +545,12 @@ world.moveForward(x);
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[26];
+    boolean[] la1tokens = new boolean[25];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 4; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -575,7 +559,7 @@ world.moveForward(x);
         }
       }
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 25; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

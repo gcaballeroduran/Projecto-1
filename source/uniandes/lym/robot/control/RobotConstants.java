@@ -72,7 +72,6 @@ public interface RobotConstants {
     "\"CHIPS\"",
     "<NUMERO>",
     "<DIGIT>",
-    "\",\"",
     "\"(\"",
     "\")\"",
     "\" ,\"",
