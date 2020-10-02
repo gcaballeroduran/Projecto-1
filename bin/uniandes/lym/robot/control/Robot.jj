@@ -435,14 +435,14 @@ void moveDir(int z, String dir):
 	{
 
 	  (
-	       <T_TURNRIGHT> "(" ")" {world.turnRight();salida = "Comando GIRAR DER";}
-		|  <T_MOVER>  "(" (a = letter() | a = num()) ")" {move(a); salida = "Comando MOVER ADELANTE";}  
-		|  <T_PONER> "("  x = numero() " ," a = word() ")" {objetoPoner(a,x);	salida = "Comando:  PONER"; }					  			
-		|  <T_RECOGER> "("   x = numero() " ," a = word()  ")"	{objetoRecoger(a,x);salida = "Comando:  Recoger";}
-		|  <ASSIGN> "(" a = letter() " ," x = numero() ")" {assign(a,x); }
-		|  <TURN> "(" a =  word() ")" {turn(a);}
-		|  <FACE> "(" a = word() ")" { face(a);}
-		|  <MOVE_DIR> "(" x = numero() " ," a = word() ")" {moveDir(x,a); }
-		|  <MOVE_IN_DIR>  "(" c = letter()" ," a = word()  ")" {moveInDir(c,a); }
+	       <T_TURNRIGHT> "(" ")"" ;" {world.turnRight();salida = "Comando GIRAR DER";}
+		|  <T_MOVER>  "(" (a = letter() | a = num()) ")"" ;"  {move(a); salida = "Comando MOVER ADELANTE";}  
+		|  <T_PONER> "("  x = numero() " ," a = word() ")"" ;"  {objetoPoner(a,x);	salida = "Comando:  PONER"; }					  			
+		|  <T_RECOGER> "("   x = numero() " ," a = word()  ")"" ;" 	{objetoRecoger(a,x);salida = "Comando:  Recoger";}
+		|  <ASSIGN> "(" a = letter() " ," x = numero() ")" " ;" {assign(a,x); }
+		|  <TURN> "(" a =  word() ")"" ;"  {turn(a);}
+		|  <FACE> "(" a = word() ")"" ;"  { face(a);}
+		|  <MOVE_DIR> "(" x = numero() " ," a = word() ")"" ;"  {moveDir(x,a); }
+		|  <MOVE_IN_DIR>  "(" c = letter()" ," a = word()  ")"" ;"  {moveInDir(c,a); }
 	  )*
 }	

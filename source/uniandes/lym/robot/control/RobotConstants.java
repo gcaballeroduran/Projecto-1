@@ -74,6 +74,7 @@ public interface RobotConstants {
     "<DIGIT>",
     "\"(\"",
     "\")\"",
+    "\" ;\"",
     "\" ,\"",
   };
 
