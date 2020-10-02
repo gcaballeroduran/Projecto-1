@@ -107,7 +107,7 @@ public class Robot implements RobotConstants {
                         }
                         catch (NumberFormatException ee)
                         {
-                                // Dada la forma de NUMERO, sabemos que solo puede tener d�gitos
+                                // Dada la forma de NUMERO, sabemos que solo puede tener digitos
                                 // Por lo tanto, lo unico que podria pasar es que el numero sea muy grande
                                 {if (true) throw new Error("Numero demasiado grande: "+token.image+"!!");}
                         }
@@ -115,34 +115,36 @@ public class Robot implements RobotConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public String letter(int token) throws ParseException {
-         String s; int x ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case MI:
-      jj_consume_token(MI);
-      break;
-    case WORD:
-      jj_consume_token(WORD);
-      break;
-    case NUMERO:
-      jj_consume_token(NUMERO);
-          s= Integer.toString(token);
+  final public String letter() throws ParseException {
+         String s = "";
+    jj_consume_token(MI);
+          s = token.image;
           {if (true) return s;}
-      break;
-    default:
-      jj_la1[3] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+    throw new Error("Missing return statement in function");
+  }
+
+  final public String num() throws ParseException {
+         String s = "";
+    jj_consume_token(NUMERO);
+          s = token.image;
+          {if (true) return s;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public String word() throws ParseException {
+         String w = "";
+    jj_consume_token(WORD);
+      w = token.image;
+      {if (true) return w;}
     throw new Error("Missing return statement in function");
   }
 
   final public void turn(String s) throws ParseException {
-  System.out.println(s);
-  if (s.contains("right")) {
+  if (s.equalsIgnoreCase("right")) {
    world.turnRight();
+
    }
-   else if (s.equals("left")) {
+   else if (s.equalsIgnoreCase("left")) {
      world.turnRight();
      world.turnRight();
      world.turnRight();
@@ -152,21 +154,21 @@ public class Robot implements RobotConstants {
   final public void face(String s) throws ParseException {
      boolean b = false;
   if (s.equalsIgnoreCase("north")) {
-    while(b = false) {
-      if (world.facingNorth() == true) {
+    while(b == false) {
+      if (world.facingNorth()) {
 
         b = true;
 
         }
-   else {
+     else {
           world.turnRight();
         }
      }
 
 }
    else if (s.equalsIgnoreCase("south")) {
-    while(b = false) {
-      if (world.facingSouth() == true) {
+    while(b == false) {
+      if (world.facingSouth()) {
 
         b = true;
 
@@ -179,8 +181,8 @@ public class Robot implements RobotConstants {
 }
 
 else if (s.equalsIgnoreCase("east")) {
-    while(b = false) {
-      if (world.facingEast() == true) {
+    while(b == false) {
+      if (world.facingEast()) {
 
         b = true;
 
@@ -193,8 +195,8 @@ else if (s.equalsIgnoreCase("east")) {
 }
 
 else if (s.equalsIgnoreCase("west")) {
-    while(b = false) {
-      if (world.facingWest() == true) {
+    while(b ==false) {
+      if (world.facingWest()) {
 
         b = true;
 
@@ -208,7 +210,6 @@ else if (s.equalsIgnoreCase("west")) {
   }
 
   final public void assign(String a ,int x) throws ParseException {
-  System.out.println(a);
    variables.put(a,x);
   }
 
@@ -218,6 +219,97 @@ else if (s.equalsIgnoreCase("west")) {
    x = variables.get(a);
  }
 world.moveForward(x);
+  }
+
+  final public void moveDir(int z, String dir) throws ParseException {
+  String back = "";
+    if(world.facingNorth()) {
+      back = "North";
+    }
+    else if(world.facingSouth()) {
+      back = "South";
+    }
+    else if(world.facingWest()) {
+      back = "West)";
+    }
+    else if(world.facingEast()) {
+      back = "East";
+    }
+
+        if(dir.equalsIgnoreCase("right")){
+                if(world.facingEast()){
+                world.moveHorizontally(z);
+                }
+                else {
+                        int n= 0;
+                        while(world.facingEast()== false){
+                                world.turnRight();
+                                n++;
+                        }
+                        world.moveHorizontally(z);
+                        turn(back);
+                }
+        }
+        else if(dir.equalsIgnoreCase("left")){
+                if(world.facingWest()){
+                        world.moveHorizontally(z);
+                        }
+                        else {
+                                int n= 0;
+                                while(world.facingWest() == false){
+                                        world.turnRight();
+                                        n++;
+                                }
+                                world.moveHorizontally(z);
+                                turn(back);
+                        }
+        }
+        else if(dir.equalsIgnoreCase("front")){
+                if(world.facingEast() || world.facingWest()){
+                        world.moveHorizontally(z);
+                }
+                else {
+                        world.moveVertically(z);
+                }
+        }
+        else {
+                if(world.facingEast()){
+                        int n= 0;
+                        while(world.facingWest() == false){
+                                world.turnRight();
+                                n++;
+                        }
+                        world.moveHorizontally(z);
+                        turn(back);
+                }
+                else if(world.facingWest()){
+                        int n= 0;
+                        while(world.facingEast()== false){
+                                world.turnRight();
+                                n++;
+                        }
+                        world.moveHorizontally(z);
+                        turn(back);
+                }
+                else if (world.facingNorth()){
+                        int n= 0;
+                                while(world.facingSouth() == false){
+                                        world.turnRight();
+                                        n++;
+                                }
+                                world.moveVertically(z);;
+                                turn(back);
+                }
+                else {
+                        int n= 0;
+                        while(world.facingNorth()== false){
+                                world.turnRight();
+                                n++;
+                        }
+                        world.moveVertically(z);;
+                        turn(back);
+                }
+        }
   }
 
   final public void comands(String salida, int x) throws ParseException {
@@ -238,7 +330,7 @@ world.moveForward(x);
         ;
         break;
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[3] = jj_gen;
         break label_1;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -246,14 +338,25 @@ world.moveForward(x);
         jj_consume_token(T_TURNRIGHT);
         jj_consume_token(23);
         jj_consume_token(24);
-                                      turn("right");salida = "Comando GIRAR DER";
+                                      world.turnRight();salida = "Comando GIRAR DER";
         break;
       case T_MOVER:
         jj_consume_token(T_MOVER);
         jj_consume_token(23);
-        a = letter(MI);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case MI:
+          a = letter();
+          break;
+        case NUMERO:
+          a = num();
+          break;
+        default:
+          jj_la1[4] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
         jj_consume_token(24);
-                                                      move(a); salida = "Comando MOVER ADELANTE";
+                                                                  move(a); salida = "Comando MOVER ADELANTE";
         break;
       case T_PONER:
         jj_consume_token(T_PONER);
@@ -272,38 +375,39 @@ world.moveForward(x);
       case ASSIGN:
         jj_consume_token(ASSIGN);
         jj_consume_token(23);
-        a = letter(MI);
+        a = letter();
         jj_consume_token(25);
         x = numero();
         jj_consume_token(24);
-                                                                        assign(a,x);
+                                                                    assign(a,x);
         break;
       case TURN:
         jj_consume_token(TURN);
         jj_consume_token(23);
-        a = letter(WORD);
+        a = word();
         jj_consume_token(24);
-                                                     turn(a);
+                                               turn(a);
         break;
       case FACE:
         jj_consume_token(FACE);
         jj_consume_token(23);
-        a = letter(WORD);
+        a = word();
         jj_consume_token(24);
-                                                      face(a);
+                                               face(a);
         break;
       case MOVE_DIR:
         jj_consume_token(MOVE_DIR);
         jj_consume_token(23);
-        a = letter(MI);
-        jj_consume_token(25);
         x = numero();
+        jj_consume_token(25);
+        a = word();
         jj_consume_token(24);
+                                                                    moveDir(x,a);
         break;
       case MOVE_IN_DIR:
         jj_consume_token(MOVE_IN_DIR);
         jj_consume_token(23);
-        a = letter(MI);
+        a = letter();
         jj_consume_token(25);
         x = numero();
         jj_consume_token(24);
@@ -331,7 +435,7 @@ world.moveForward(x);
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x401,0xc0000,0xc0000,0x120020,0x1f3c0,0x1f3c0,};
+      jj_la1_0 = new int[] {0x401,0xc0000,0xc0000,0x1f3c0,0x100020,0x1f3c0,};
    }
 
   /** Constructor with InputStream. */
