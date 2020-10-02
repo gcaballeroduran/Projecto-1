@@ -179,7 +179,7 @@ TOKEN :
 	{String s; int x ;}
 
 	{
-	  < WORD >| < MI >|< NUMERO >{ 
+	  < MI >|< WORD >|< NUMERO >{ 
 	  s= Integer.toString(token);
 	  return s;
 	}
@@ -189,12 +189,11 @@ TOKEN :
    { }
    {
    {
-  
-  if (s.equalsIgnoreCase("right")) {
+  System.out.println(s);
+  if (s.contains("right")) {
    world.turnRight();
-     
    }
-   else if (s.equalsIgnoreCase("left")) {
+   else if (s.equals("left")) {
      world.turnRight();
      world.turnRight();
      world.turnRight();
@@ -267,6 +266,7 @@ void assign(String a ,int x):
 {}
 {
 {
+  System.out.println(a);
    variables.put(a,x); 
 } 
 }
@@ -279,10 +279,10 @@ void move(String a):
    x = variables.get(a);
  }
 world.moveForward(x);
-
   
 } 
 }
+
 
 	void comands(String salida, int x):
 	{
@@ -291,7 +291,7 @@ world.moveForward(x);
 	   }
 	{
 
-	  (	       <T_TURNRIGHT> "(" ")" {world.turnRight();salida = "Comando GIRAR DER";}
+	  (	       <T_TURNRIGHT> "(" ")" {turn("right");salida = "Comando GIRAR DER";}
 		|  <T_MOVER>  "(" a = letter(MI) ")" {move(a); salida = "Comando MOVER ADELANTE";}  
 		|  <T_PONER> "("  objetoPoner() ")" {	salida = "Comando:  PONER"; }					  			
 		|  <T_RECOGER> "("  objetoRecoger()  ")"	{salida = "Comando:  Recoger";}

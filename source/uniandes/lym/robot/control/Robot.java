@@ -118,11 +118,11 @@ public class Robot implements RobotConstants {
   final public String letter(int token) throws ParseException {
          String s; int x ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case WORD:
-      jj_consume_token(WORD);
-      break;
     case MI:
       jj_consume_token(MI);
+      break;
+    case WORD:
+      jj_consume_token(WORD);
       break;
     case NUMERO:
       jj_consume_token(NUMERO);
@@ -138,11 +138,11 @@ public class Robot implements RobotConstants {
   }
 
   final public void turn(String s) throws ParseException {
-  if (s.equalsIgnoreCase("right")) {
+  System.out.println(s);
+  if (s.contains("right")) {
    world.turnRight();
-
    }
-   else if (s.equalsIgnoreCase("left")) {
+   else if (s.equals("left")) {
      world.turnRight();
      world.turnRight();
      world.turnRight();
@@ -208,6 +208,7 @@ else if (s.equalsIgnoreCase("west")) {
   }
 
   final public void assign(String a ,int x) throws ParseException {
+  System.out.println(a);
    variables.put(a,x);
   }
 
@@ -245,7 +246,7 @@ world.moveForward(x);
         jj_consume_token(T_TURNRIGHT);
         jj_consume_token(23);
         jj_consume_token(24);
-                                      world.turnRight();salida = "Comando GIRAR DER";
+                                      turn("right");salida = "Comando GIRAR DER";
         break;
       case T_MOVER:
         jj_consume_token(T_MOVER);

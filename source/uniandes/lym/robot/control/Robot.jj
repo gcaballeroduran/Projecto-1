@@ -179,7 +179,7 @@ TOKEN :
 	{String s; int x ;}
 
 	{
-	  < WORD >| < MI >|< NUMERO >{ 
+	  < MI >|< NUMERO >{ 
 	  s= Integer.toString(token);
 	  return s;
 	}
@@ -189,12 +189,11 @@ TOKEN :
    { }
    {
    {
-  
-  if (s.equalsIgnoreCase("right")) {
+  System.out.println()
+  if (s.contains("right")) {
    world.turnRight();
-     
    }
-   else if (s.equalsIgnoreCase("left")) {
+   else if (s.equals("left")) {
      world.turnRight();
      world.turnRight();
      world.turnRight();
@@ -279,10 +278,18 @@ void move(String a):
    x = variables.get(a);
  }
 world.moveForward(x);
-
   
 } 
 }
+   String word(int token):
+	{String s;}
+
+	{
+	  < WORD >{ 
+	  s= Integer.toString(token);
+	  return s;
+	}
+	}
 
 	void comands(String salida, int x):
 	{
@@ -291,12 +298,12 @@ world.moveForward(x);
 	   }
 	{
 
-	  (	       <T_TURNRIGHT> "(" ")" {world.turnRight();salida = "Comando GIRAR DER";}
+	  (	       <T_TURNRIGHT> "(" ")" {turn("right");salida = "Comando GIRAR DER";}
 		|  <T_MOVER>  "(" a = letter(MI) ")" {move(a); salida = "Comando MOVER ADELANTE";}  
 		|  <T_PONER> "("  objetoPoner() ")" {	salida = "Comando:  PONER"; }					  			
 		|  <T_RECOGER> "("  objetoRecoger()  ")"	{salida = "Comando:  Recoger";}
 		|  <ASSIGN> "(" a = letter( MI ) " ," x = numero() ")" {assign(a,x); }
-		|  <TURN> "(" a =  letter(WORD) ")" {turn(a);}
+		|  <TURN> "(" a =  word(WORD) ")" {turn(a);}
 		|  <FACE> "(" a = letter(WORD)  ")" { face(a);}
 		|  <MOVE_DIR> "(" a = letter( MI ) " ," x = numero() ")"
 		|  <MOVE_IN_DIR>  "(" a = letter( MI ) " ," x = numero() ")"
