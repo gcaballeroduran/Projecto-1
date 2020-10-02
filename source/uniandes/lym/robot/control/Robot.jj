@@ -398,9 +398,21 @@ void moveDir(int z, String dir):
       }
     }
 
+    void moveInDir(String x, String face):
+    { int num = 0;}
+    {
+     {
+        face(face);
+        num = variables.get(x);
+        world.moveForward(num);
+      }
+
+      }
+
 	void comands(String salida, int x):
 	{
      String a;
+     String c;
      int b;
 	   }
 	{
@@ -414,6 +426,6 @@ void moveDir(int z, String dir):
 		|  <TURN> "(" a =  word() ")" {turn(a);}
 		|  <FACE> "(" a = word() ")" { face(a);}
 		|  <MOVE_DIR> "(" x = numero() " ," a = word() ")" {moveDir(x,a); }
-		|  <MOVE_IN_DIR>  "(" a = letter() " ," x = numero() ")"
+		|  <MOVE_IN_DIR>  "(" c = letter()" ," a = word()  ")" {moveInDir(c,a); }
 	  )*
 }	

@@ -312,8 +312,16 @@ world.moveForward(x);
         }
   }
 
+  final public void moveInDir(String x, String face) throws ParseException {
+      int num = 0;
+        face(face);
+        num = variables.get(x);
+        world.moveForward(num);
+  }
+
   final public void comands(String salida, int x) throws ParseException {
      String a;
+     String c;
      int b;
     label_1:
     while (true) {
@@ -407,10 +415,11 @@ world.moveForward(x);
       case MOVE_IN_DIR:
         jj_consume_token(MOVE_IN_DIR);
         jj_consume_token(23);
-        a = letter();
+        c = letter();
         jj_consume_token(25);
-        x = numero();
+        a = word();
         jj_consume_token(24);
+                                                                        moveInDir(c,a);
         break;
       default:
         jj_la1[5] = jj_gen;
