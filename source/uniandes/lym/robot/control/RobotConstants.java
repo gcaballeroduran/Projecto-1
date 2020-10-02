@@ -37,13 +37,19 @@ public interface RobotConstants {
   /** RegularExpression Id. */
   int WORD = 17;
   /** RegularExpression Id. */
-  int T_BALLOONS = 18;
+  int FACING = 18;
   /** RegularExpression Id. */
-  int T_CHIPS = 19;
+  int NOT = 19;
   /** RegularExpression Id. */
-  int NUMERO = 20;
+  int END = 20;
   /** RegularExpression Id. */
-  int DIGIT = 21;
+  int T_BALLOONS = 21;
+  /** RegularExpression Id. */
+  int T_CHIPS = 22;
+  /** RegularExpression Id. */
+  int NUMERO = 23;
+  /** RegularExpression Id. */
+  int DIGIT = 24;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -68,6 +74,9 @@ public interface RobotConstants {
     "\"moveDir\"",
     "\"moveInDir\"",
     "<WORD>",
+    "\"facing\"",
+    "\"not\"",
+    "\"END\"",
     "\"BALLOONS\"",
     "\"CHIPS\"",
     "<NUMERO>",
@@ -76,6 +85,11 @@ public interface RobotConstants {
     "\")\"",
     "\" ;\"",
     "\" ,\"",
+    "\"{\"",
+    "\"}\"",
+    "\"[\"",
+    "\"]\"",
+    "\"not \"",
   };
 
 }

@@ -78,7 +78,9 @@ TOKEN: /* Nombres de Comandos */
 		|   <MOVE_DIR:"moveDir">
 		|   <MOVE_IN_DIR:"moveInDir">
 		|   <WORD: (< MI >)* >
-		
+		|   <FACING: "facing" >
+		|   < NOT: "not" >
+		|   <END :"END" >
 
 }
 
@@ -107,7 +109,7 @@ TOKEN :
 	
 	{
 		(
-		  < ROBOT > < VARS> <WORD> comands(salida, x)
+		  < ROBOT > < VARS> <WORD> options(salida) < WORD >
 		)  
  
 		{
@@ -415,6 +417,33 @@ void moveDir(int z, String dir):
       }
     }
 
+    boolean facing(String s):
+    { boolean b = false;}
+    {
+         {
+             if (s.equals("north")) {
+              b = world.facingNorth();
+               
+             }
+             else if (s.equals("south")) {
+              b = world.facingSouth();
+               
+             }
+             else  if (s.equals("west")) {
+              b = world.facingWest();
+               
+             }
+             else if (s.equals("east")) {
+              b = world.facingEast();
+               
+             }
+     
+              return b;
+           
+         }
+      
+    }
+
     void moveInDir(String x, String face):
     { int num = 0;}
     {
@@ -426,23 +455,69 @@ void moveDir(int z, String dir):
 
       }
 
-	void comands(String salida, int x):
+	void comands(String sistem):
 	{
      String a;
      String c;
-     int b;
+     int x;
+     boolean b;
 	   }
 	{
 
 	  (
-	       <T_TURNRIGHT> "(" ")"" ;" {world.turnRight();salida = "Comando GIRAR DER";}
-		|  <T_MOVER>  "(" (a = letter() | a = num()) ")"" ;"  {move(a); salida = "Comando MOVER ADELANTE";}  
-		|  <T_PONER> "("  x = numero() " ," a = word() ")"" ;"  {objetoPoner(a,x);	salida = "Comando:  PONER"; }					  			
-		|  <T_RECOGER> "("   x = numero() " ," a = word()  ")"" ;" 	{objetoRecoger(a,x);salida = "Comando:  Recoger";}
+	       <T_TURNRIGHT> "(" ")"" ;" {world.turnRight();}
+		|  <T_MOVER>  "(" (a = letter() | a = num()) ")"" ;"  {move(a); }  
+		|  <T_PONER> "("  x = numero() " ," a = word() ")"" ;"  {objetoPoner(a,x);}					  			
+		|  <T_RECOGER> "("   x = numero() " ," a = word()  ")"" ;" 	{objetoRecoger(a,x);}
 		|  <ASSIGN> "(" a = letter() " ," x = numero() ")" " ;" {assign(a,x); }
 		|  <TURN> "(" a =  word() ")"" ;"  {turn(a);}
 		|  <FACE> "(" a = word() ")"" ;"  { face(a);}
 		|  <MOVE_DIR> "(" x = numero() " ," a = word() ")"" ;"  {moveDir(x,a); }
 		|  <MOVE_IN_DIR>  "(" c = letter()" ," a = word()  ")"" ;"  {moveInDir(c,a); }
-	  )*
+		|  not(sistem)
+		
+	  )
 }	
+
+void options(String sistem): { }
+{
+  (corchete(sistem) | comands(sistem) | cuadrado(sistem))*
+}
+
+void corchete(String sistem):{
+     String a;
+     String c;
+     int x;}
+{
+  "{"
+ (comands(sistem))*
+ 
+ "}"
+}
+
+void cuadrado(String sistem):{
+     String a;
+     String c;
+     int x;}
+{
+  "["
+ (comands(sistem))*
+
+ "]"
+}
+
+void not(String sistem): {
+  String a;
+  boolean b; }
+{
+ "not ""("<WORD > "(" a = word() ")"")"" ;"  {
+    b = facing(a);
+
+     if (b == false )
+   sistem = "Not facing that direction";
+    }
+}
+
+
+
+

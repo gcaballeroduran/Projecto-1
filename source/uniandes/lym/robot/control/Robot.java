@@ -28,7 +28,8 @@ public class Robot implements RobotConstants {
       jj_consume_token(ROBOT);
       jj_consume_token(VARS);
       jj_consume_token(WORD);
-      comands(salida, x);
+      options(salida);
+      jj_consume_token(WORD);
                     try {
                                         Thread.sleep(2000);
                                     } catch (InterruptedException e) {
@@ -292,6 +293,29 @@ world.moveForward(x);
         }
   }
 
+  final public boolean facing(String s) throws ParseException {
+      boolean b = false;
+             if (s.equals("north")) {
+              b = world.facingNorth();
+
+             }
+             else if (s.equals("south")) {
+              b = world.facingSouth();
+
+             }
+             else  if (s.equals("west")) {
+              b = world.facingWest();
+
+             }
+             else if (s.equals("east")) {
+              b = world.facingEast();
+
+             }
+
+              {if (true) return b;}
+    throw new Error("Missing return statement in function");
+  }
+
   final public void moveInDir(String x, String face) throws ParseException {
       int num = 0;
         face(face);
@@ -299,10 +323,115 @@ world.moveForward(x);
         world.moveForward(num);
   }
 
-  final public void comands(String salida, int x) throws ParseException {
+  final public void comands(String sistem) throws ParseException {
      String a;
      String c;
-     int b;
+     int x;
+     boolean b;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case T_TURNRIGHT:
+      jj_consume_token(T_TURNRIGHT);
+      jj_consume_token(25);
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                          world.turnRight();
+      break;
+    case T_MOVER:
+      jj_consume_token(T_MOVER);
+      jj_consume_token(25);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case MI:
+        a = letter();
+        break;
+      case NUMERO:
+        a = num();
+        break;
+      default:
+        jj_la1[1] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                                       move(a);
+      break;
+    case T_PONER:
+      jj_consume_token(T_PONER);
+      jj_consume_token(25);
+      x = numero();
+      jj_consume_token(28);
+      a = word();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                                         objetoPoner(a,x);
+      break;
+    case T_RECOGER:
+      jj_consume_token(T_RECOGER);
+      jj_consume_token(25);
+      x = numero();
+      jj_consume_token(28);
+      a = word();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                                                 objetoRecoger(a,x);
+      break;
+    case ASSIGN:
+      jj_consume_token(ASSIGN);
+      jj_consume_token(25);
+      a = letter();
+      jj_consume_token(28);
+      x = numero();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                                         assign(a,x);
+      break;
+    case TURN:
+      jj_consume_token(TURN);
+      jj_consume_token(25);
+      a = word();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                    turn(a);
+      break;
+    case FACE:
+      jj_consume_token(FACE);
+      jj_consume_token(25);
+      a = word();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                    face(a);
+      break;
+    case MOVE_DIR:
+      jj_consume_token(MOVE_DIR);
+      jj_consume_token(25);
+      x = numero();
+      jj_consume_token(28);
+      a = word();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                                         moveDir(x,a);
+      break;
+    case MOVE_IN_DIR:
+      jj_consume_token(MOVE_IN_DIR);
+      jj_consume_token(25);
+      c = letter();
+      jj_consume_token(28);
+      a = word();
+      jj_consume_token(26);
+      jj_consume_token(27);
+                                                                             moveInDir(c,a);
+      break;
+    case 33:
+      not(sistem);
+      break;
+    default:
+      jj_la1[2] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void options(String sistem) throws ParseException {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -315,111 +444,115 @@ world.moveForward(x);
       case FACE:
       case MOVE_DIR:
       case MOVE_IN_DIR:
+      case 29:
+      case 31:
+      case 33:
         ;
         break;
       default:
-        jj_la1[1] = jj_gen;
+        jj_la1[3] = jj_gen;
         break label_1;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case T_TURNRIGHT:
-        jj_consume_token(T_TURNRIGHT);
-        jj_consume_token(22);
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                          world.turnRight();salida = "Comando GIRAR DER";
+      case 29:
+        corchete(sistem);
         break;
       case T_MOVER:
-        jj_consume_token(T_MOVER);
-        jj_consume_token(22);
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case MI:
-          a = letter();
-          break;
-        case NUMERO:
-          a = num();
-          break;
-        default:
-          jj_la1[2] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                                       move(a); salida = "Comando MOVER ADELANTE";
-        break;
+      case T_TURNRIGHT:
       case T_PONER:
-        jj_consume_token(T_PONER);
-        jj_consume_token(22);
-        x = numero();
-        jj_consume_token(25);
-        a = word();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                                         objetoPoner(a,x);      salida = "Comando:  PONER";
-        break;
       case T_RECOGER:
-        jj_consume_token(T_RECOGER);
-        jj_consume_token(22);
-        x = numero();
-        jj_consume_token(25);
-        a = word();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                                                 objetoRecoger(a,x);salida = "Comando:  Recoger";
-        break;
       case ASSIGN:
-        jj_consume_token(ASSIGN);
-        jj_consume_token(22);
-        a = letter();
-        jj_consume_token(25);
-        x = numero();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                                         assign(a,x);
-        break;
       case TURN:
-        jj_consume_token(TURN);
-        jj_consume_token(22);
-        a = word();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                    turn(a);
-        break;
       case FACE:
-        jj_consume_token(FACE);
-        jj_consume_token(22);
-        a = word();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                    face(a);
-        break;
       case MOVE_DIR:
-        jj_consume_token(MOVE_DIR);
-        jj_consume_token(22);
-        x = numero();
-        jj_consume_token(25);
-        a = word();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                                         moveDir(x,a);
-        break;
       case MOVE_IN_DIR:
-        jj_consume_token(MOVE_IN_DIR);
-        jj_consume_token(22);
-        c = letter();
-        jj_consume_token(25);
-        a = word();
-        jj_consume_token(23);
-        jj_consume_token(24);
-                                                                             moveInDir(c,a);
+      case 33:
+        comands(sistem);
+        break;
+      case 31:
+        cuadrado(sistem);
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[4] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     }
+  }
+
+  final public void corchete(String sistem) throws ParseException {
+     String a;
+     String c;
+     int x;
+    jj_consume_token(29);
+    label_2:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case T_MOVER:
+      case T_TURNRIGHT:
+      case T_PONER:
+      case T_RECOGER:
+      case ASSIGN:
+      case TURN:
+      case FACE:
+      case MOVE_DIR:
+      case MOVE_IN_DIR:
+      case 33:
+        ;
+        break;
+      default:
+        jj_la1[5] = jj_gen;
+        break label_2;
+      }
+      comands(sistem);
+    }
+    jj_consume_token(30);
+  }
+
+  final public void cuadrado(String sistem) throws ParseException {
+     String a;
+     String c;
+     int x;
+    jj_consume_token(31);
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case T_MOVER:
+      case T_TURNRIGHT:
+      case T_PONER:
+      case T_RECOGER:
+      case ASSIGN:
+      case TURN:
+      case FACE:
+      case MOVE_DIR:
+      case MOVE_IN_DIR:
+      case 33:
+        ;
+        break;
+      default:
+        jj_la1[6] = jj_gen;
+        break label_3;
+      }
+      comands(sistem);
+    }
+    jj_consume_token(32);
+  }
+
+  final public void not(String sistem) throws ParseException {
+  String a;
+  boolean b;
+    jj_consume_token(33);
+    jj_consume_token(25);
+    jj_consume_token(WORD);
+    jj_consume_token(25);
+    a = word();
+    jj_consume_token(26);
+    jj_consume_token(26);
+    jj_consume_token(27);
+    b = facing(a);
+
+     if (b == false )
+   sistem = "Not facing that direction";
   }
 
   /** Generated Token Manager. */
@@ -431,13 +564,18 @@ world.moveForward(x);
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[4];
+  final private int[] jj_la1 = new int[7];
   static private int[] jj_la1_0;
+  static private int[] jj_la1_1;
   static {
       jj_la1_init_0();
+      jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x401,0x1f3c0,0x100020,0x1f3c0,};
+      jj_la1_0 = new int[] {0x401,0x800020,0x1f3c0,0xa001f3c0,0xa001f3c0,0x1f3c0,0x1f3c0,};
+   }
+   private static void jj_la1_init_1() {
+      jj_la1_1 = new int[] {0x0,0x0,0x2,0x2,0x2,0x2,0x2,};
    }
 
   /** Constructor with InputStream. */
@@ -451,7 +589,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -465,7 +603,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -475,7 +613,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -485,7 +623,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -494,7 +632,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -503,7 +641,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -554,21 +692,24 @@ world.moveForward(x);
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[26];
+    boolean[] la1tokens = new boolean[34];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 7; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
             la1tokens[j] = true;
           }
+          if ((jj_la1_1[i] & (1<<j)) != 0) {
+            la1tokens[32+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 34; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
