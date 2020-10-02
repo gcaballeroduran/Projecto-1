@@ -1,0 +1,327 @@
+/*
+Gramatica para el Robot:
+Autor: Alejandro Arango
+Modificado por: Silvia Takahashi
+Modificado por: Juan Pablo Morales.
+Agregadas producciones para manejar globos
+Modificado por Silvia Takahashi
+Eliminadas producciones para manejar globos
+Agregado el esqueleto para la traduccion
+Modificado por Silvia Takahashi 
+Re: Agregar Reglas para el manejo de globos
+Modificado por Saulo Daza y Sonia Vivas
+Modificado por Silvia Takahashi
+Eliminadas reglas de traduccion DE  MARCROS
+Cambio del lenguaje de comandos
+Modificado por Silvia Takahashi: algunas Reglas para traduccion
+Modificado por Silvia Takahashi: Cambio en el lenguaje
+Abril: 2008 - Simplificado apra solo interpretacion
+ **/
+
+options 
+{
+	LOOKAHEAD=1; 
+	IGNORE_CASE=true;
+	STATIC = false;
+	
+}
+   
+
+PARSER_BEGIN(Robot)
+
+package uniandes.lym.robot.control;
+
+import uniandes.lym.robot.kernel.*;
+import java.awt.Point;
+import java.io.*;
+import java.util.Vector;
+import java.util.LinkedList;
+import java.util.HashMap;
+
+@SuppressWarnings("serial")
+public class Robot 
+{
+
+
+	private RobotWorldDec world;
+	HashMap<String,Integer> variables = new HashMap<String,Integer>();
+	
+	
+	void setWorld(RobotWorld w) {
+		world = (RobotWorldDec) w;	
+	}
+
+	
+}
+PARSER_END(Robot)
+
+SKIP:
+{
+	" "
+	|	"\r"
+	|	"\t"
+	| "\n"
+}
+
+TOKEN: /* Nombres de Comandos */
+{
+        < MI: ["a"-"z"] >
+        | 	<T_MOVER:  "move">
+		| 	<T_TURNRIGHT: "TURNRIGHT">
+		| 	<T_PONER: "Put">
+		| 	<T_RECOGER: "Pick">
+		|   < ROBOT: "ROBOT_R">
+		|   < VARS: "VARS "< MI >" , " < MI >>
+		|   <ASSIGN :"assign" >
+		|   <TURN : "turn" >
+		|   <FACE: "face">
+		|   <MOVE_DIR:"moveDir">
+		|   <MOVE_IN_DIR:"moveInDir">
+		|   <WORD: (< MI >)* >
+		
+
+}
+
+TOKEN :
+{
+		<T_BALLOONS:  "BALLOONS" >
+		|	<T_CHIPS:     "CHIPS"  >	
+
+}
+
+
+TOKEN :
+{
+		<NUMERO: (<DIGIT>)+ >
+		|  	<#DIGIT: ["0"-"9"] >
+}
+
+
+	boolean command(StringBuffer sistema) :
+	{	
+		
+		int x= 0;
+		String salida=new String();
+		
+	}
+	
+	{
+		(
+		  < ROBOT > < VARS> <WORD> comands(salida, x)
+		)  
+ 
+		{
+		    try {
+	    			        Thread.sleep(2000);
+	    			    } catch (InterruptedException e) {
+	    			        System.err.format("IOException: %s%n", e);
+	    			    }
+	    			 
+			sistema.append(salida);
+			return true;
+		}
+
+		
+
+		| <EOF> {return false;} 
+	}
+
+	void objetoPoner() :
+	{
+		int f=1;	
+	}
+	{
+		( <T_CHIPS>    "," f=numero() {world.putChips(f);})
+		|  	  ( <T_BALLOONS>   "," f=numero() {world.putBalloons(f);})	 
+
+	}
+
+	void objetoRecoger() :
+	{
+		int f=1;	
+	}
+	{
+		( <T_CHIPS>   "," f=numero() {world.pickChips(f);})
+		|  	  ( <T_BALLOONS>   "," f=numero() {world.grabBalloons(f);})	 
+
+	}
+
+	
+	
+
+	/**
+	 *  reconoce un numero entero sin signo
+	 * @return el valor entero correspondiente al valor reconocido
+	 */
+
+	int numero() throws Error:
+	{	
+		int total=1;
+	}
+	{
+		<NUMERO>
+		{
+			try 
+			{
+				total = Integer.parseInt(token.image);
+			} 
+			catch (NumberFormatException ee) 
+			{
+				// Dada la forma de NUMERO, sabemos que solo puede tener digitos
+				// Por lo tanto, lo unico que podria pasar es que el numero sea muy grande
+				throw new Error("Numero demasiado grande: "+token.image+"!!");
+			}
+			return total;
+		}
+	}
+
+	String letter():
+	{String s = "";}
+
+	{
+	  < MI >{ 
+	  s = token.image;
+	  return s;
+	}
+	}
+
+String num():
+	{String s = "";}
+
+	{
+	  < NUMERO >{ 
+	  s = token.image;
+	  return s;
+	}
+	}
+
+	String word():
+	{String w = ""; }
+	{
+	  < WORD >
+	  {
+      w = token.image;
+      return w;
+	    }
+	}
+
+   void turn (String s):
+   { }
+   {
+   {
+  
+  if (s.equalsIgnoreCase("right")) {
+   world.turnRight();
+     
+   }
+   else if (s.equalsIgnoreCase("left")) {
+     world.turnRight();
+     world.turnRight();
+     world.turnRight();
+   }
+ }
+}
+  void face (String s):
+   { boolean b = false;}
+   {
+   {
+  
+  if (s.equalsIgnoreCase("north")) {
+    while(b == false) {
+      if (world.facingNorth()) {
+
+        b = true;
+
+        }
+     else { 
+          world.turnRight();
+        }
+     }
+     
+}
+   else if (s.equalsIgnoreCase("south")) {
+    while(b == false) {
+      if (world.facingSouth()) {
+
+        b = true;
+
+        }
+   else {
+          world.turnRight();
+        }
+     }
+     
+}
+
+else if (s.equalsIgnoreCase("east")) {
+    while(b == false) {
+      if (world.facingEast()) {
+
+        b = true;
+
+        }
+   else { 
+          world.turnRight();
+        }
+     }
+     
+}
+
+else if (s.equalsIgnoreCase("west")) {
+    while(b ==false) {
+      if (world.facingWest()) {
+
+        b = true;
+
+        }
+   else { 
+          world.turnRight();
+        }
+     }
+     
+   }
+ }
+}
+
+void assign(String a ,int x):
+{}
+{
+{
+   variables.put(a,x); 
+} 
+}
+
+void move(String a):
+{int x = 1;}
+{
+{
+  if(variables.containsKey(a)) {
+   x = variables.get(a);
+ }
+world.moveForward(x);
+
+  
+} 
+}
+
+	void comands(String salida, int x):
+	{
+     String a;
+     int b;
+	   }
+	{
+
+	  (
+	       <T_TURNRIGHT> "(" ")" {world.turnRight();salida = "Comando GIRAR DER";}
+		|  <T_MOVER>  "(" (a = letter() | a = num()) ")" {move(a); salida = "Comando MOVER ADELANTE";}  
+		|  <T_PONER> "("  objetoPoner() ")" {	salida = "Comando:  PONER"; }					  			
+		|  <T_RECOGER> "("  objetoRecoger()  ")"	{salida = "Comando:  Recoger";}
+		|  <ASSIGN> "(" a = letter() " ," x = numero() ")" {assign(a,x); }
+		|  <TURN> "(" a =  word() ")" {turn(a);}
+		|  <FACE> "(" a = word() ")" { face(a);}
+		|  <MOVE_DIR> "(" a = letter() " ," x = numero() ")"
+		|  <MOVE_IN_DIR>  "(" a = letter() " ," x = numero() ")"
+	  )*
+}
+
+	
