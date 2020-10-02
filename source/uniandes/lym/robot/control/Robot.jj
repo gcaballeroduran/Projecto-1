@@ -490,7 +490,7 @@ void corchete(String sistem):{
      int x;}
 {
   "{"
- (comands(sistem))*
+ (comands(sistem)| cuadrado(sistem))*
  
  "}"
 }
@@ -501,7 +501,7 @@ void cuadrado(String sistem):{
      int x;}
 {
   "["
- (comands(sistem))*
+ (comands(sistem) | corchete(sistem))*
 
  "]"
 }

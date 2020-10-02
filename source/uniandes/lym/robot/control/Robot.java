@@ -497,6 +497,7 @@ world.moveForward(x);
       case FACE:
       case MOVE_DIR:
       case MOVE_IN_DIR:
+      case 31:
       case 33:
         ;
         break;
@@ -504,7 +505,27 @@ world.moveForward(x);
         jj_la1[5] = jj_gen;
         break label_2;
       }
-      comands(sistem);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case T_MOVER:
+      case T_TURNRIGHT:
+      case T_PONER:
+      case T_RECOGER:
+      case ASSIGN:
+      case TURN:
+      case FACE:
+      case MOVE_DIR:
+      case MOVE_IN_DIR:
+      case 33:
+        comands(sistem);
+        break;
+      case 31:
+        cuadrado(sistem);
+        break;
+      default:
+        jj_la1[6] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     jj_consume_token(30);
   }
@@ -526,14 +547,35 @@ world.moveForward(x);
       case FACE:
       case MOVE_DIR:
       case MOVE_IN_DIR:
+      case 29:
       case 33:
         ;
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[7] = jj_gen;
         break label_3;
       }
-      comands(sistem);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case T_MOVER:
+      case T_TURNRIGHT:
+      case T_PONER:
+      case T_RECOGER:
+      case ASSIGN:
+      case TURN:
+      case FACE:
+      case MOVE_DIR:
+      case MOVE_IN_DIR:
+      case 33:
+        comands(sistem);
+        break;
+      case 29:
+        corchete(sistem);
+        break;
+      default:
+        jj_la1[8] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
     }
     jj_consume_token(32);
   }
@@ -564,7 +606,7 @@ world.moveForward(x);
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[7];
+  final private int[] jj_la1 = new int[9];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -572,10 +614,10 @@ world.moveForward(x);
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x401,0x800020,0x1f3c0,0xa001f3c0,0xa001f3c0,0x1f3c0,0x1f3c0,};
+      jj_la1_0 = new int[] {0x401,0x800020,0x1f3c0,0xa001f3c0,0xa001f3c0,0x8001f3c0,0x8001f3c0,0x2001f3c0,0x2001f3c0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x2,0x2,0x2,0x2,0x2,};
+      jj_la1_1 = new int[] {0x0,0x0,0x2,0x2,0x2,0x2,0x2,0x2,0x2,};
    }
 
   /** Constructor with InputStream. */
@@ -589,7 +631,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -603,7 +645,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -613,7 +655,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -623,7 +665,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -632,7 +674,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -641,7 +683,7 @@ world.moveForward(x);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 9; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -697,7 +739,7 @@ world.moveForward(x);
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 9; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
